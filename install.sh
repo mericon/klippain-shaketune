@@ -1,26 +1,14 @@
-#!/bin/bash
+#!/bin/sh
 
-USER_CONFIG_PATH="${HOME}/printer_data/config"
-KLIPPER_PATH="${HOME}/klipper"
-K_SHAKETUNE_PATH="${HOME}/klippain_shaketune"
+USER_CONFIG_PATH="/usr/data/printer_data/config"
+KLIPPER_PATH="/usr/share/klipper"
+K_SHAKETUNE_PATH="/usr/data/klippain_shaketune"
 
 set -eu
 export LC_ALL=C
 
 
 function preflight_checks {
-    if [ "$EUID" -eq 0 ]; then
-        echo "[PRE-CHECK] This script must not be run as root!"
-        exit -1
-    fi
-
-    if [ "$(sudo systemctl list-units --full -all -t service --no-legend | grep -F 'klipper.service')" ]; then
-        printf "[PRE-CHECK] Klipper service found! Continuing...\n\n"
-    else
-        echo "[ERROR] Klipper service not found, please install Klipper first!"
-        exit -1
-    fi
-
     if [ -d "${HOME}/klippain_config" ]; then
         if [ -f "${USER_CONFIG_PATH}/.VERSION" ]; then
             echo "[ERROR] Klippain full installation found! Nothing is needed in order to use the K-Shake&Tune module!"
@@ -50,7 +38,7 @@ function check_download {
 
 function link_extension {
     echo "[INSTALL] Linking scripts to your config directory..."
-    ln -frsn ${K_SHAKETUNE_PATH}/K-ShakeTune ${USER_CONFIG_PATH}/K-ShakeTune
+    ln -fsn ${K_SHAKETUNE_PATH}/K-ShakeTune ${USER_CONFIG_PATH}/K-ShakeTune
 }
 
 function link_gcodeshellcommandpy {
@@ -63,8 +51,7 @@ function link_gcodeshellcommandpy {
 }
 
 function restart_klipper {
-    echo "[POST-INSTALL] Restarting Klipper..."
-    sudo systemctl restart klipper
+    echo "[POST-INSTALL] Please do an reboot"
 }
 
 
