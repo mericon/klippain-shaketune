@@ -38,6 +38,7 @@ function check_download {
 
 function link_extension {
     echo "[INSTALL] Linking scripts to your config directory..."
+    chmod +x ${K_SHAKETUNE_PATH}/K-ShakeTune ${USER_CONFIG_PATH}/K-ShakeTune/scripts
     ln -fsn ${K_SHAKETUNE_PATH}/K-ShakeTune ${USER_CONFIG_PATH}/K-ShakeTune
 }
 
